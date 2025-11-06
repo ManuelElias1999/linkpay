@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react';
 import { Coins, Users, Wallet } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';

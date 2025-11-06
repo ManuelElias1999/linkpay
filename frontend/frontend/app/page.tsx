@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react';
 import { Building2, LayoutDashboard, Users, Coins, History } from 'lucide-react';
 import { Dashboard } from '../components/Dashboard';
@@ -8,6 +9,7 @@ import { PaymentHistory } from '../components/PaymentHistory';
 import { Button } from '../components/ui/button';
 import { Toaster } from '../components/ui/sonner';
 import { toast } from 'sonner';
+import "./globals.css";
 
 interface Company {
   id: string;
