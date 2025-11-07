@@ -322,7 +322,11 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
 
     // Get current block number
     const currentBlock = await provider.getBlockNumber();
-    const fromBlock = 0; // Start from contract deployment - you can optimize this later
+
+    // Base Sepolia has a max block range of 100,000
+    // Query last 50,000 blocks to stay well under the limit
+    const blockRange = 50000;
+    const fromBlock = Math.max(0, currentBlock - blockRange);
 
     // Build filter for PaymentExecuted events
     const executedFilter = companyId

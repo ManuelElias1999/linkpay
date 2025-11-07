@@ -4,6 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 interface DashboardProps {
   companies: Company[];
   payments: Payment[];
+  employees?: Employee[];
+  currentCompanyId?: number;
+  usdcBalance?: string;
+}
+
+interface Employee {
+  id: string;
+  name: string;
+  walletAddress: string;
 }
 
 interface Company {
@@ -21,13 +30,17 @@ interface Payment {
   amount: number;
   scheduledDate: string;
   status: 'pending' | 'completed' | 'scheduled';
+  timestamp?: number;
 }
 
-export function Dashboard({ companies, payments }: DashboardProps) {
+export function Dashboard({ companies, payments, employees = [], currentCompanyId = 0, usdcBalance = '0' }: DashboardProps) {
   const totalCompanies = companies.length;
   const totalPayments = payments.length;
-  const pendingPayments = payments.filter(p => p.status === 'pending' || p.status === 'scheduled').length;
-  const totalAmount = payments.reduce((sum, p) => sum + p.amount, 0);
+  const completedPayments = payments.filter(p => p.status === 'completed').length;
+  const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
+
+  // Filter employees for current company
+  const myEmployees = employees.length;
 
   const recentPayments = payments.slice(0, 5);
 
@@ -41,12 +54,23 @@ export function Dashboard({ companies, payments }: DashboardProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm">Total Companies</CardTitle>
-            <Building2 className="h-4 w-4 text-gray-500" />
+            <CardTitle className="text-sm">My Employees</CardTitle>
+            <Users className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{totalCompanies}</div>
-            <p className="text-xs text-gray-500 mt-1">Registered companies</p>
+            <div className="text-2xl font-bold">{myEmployees}</div>
+            <p className="text-xs text-gray-500 mt-1">Active employees</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm">USDC Balance</CardTitle>
+            <Wallet className="h-4 w-4 text-gray-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{parseFloat(usdcBalance).toLocaleString()} USDC</div>
+            <p className="text-xs text-gray-500 mt-1">Available for payments</p>
           </CardContent>
         </Card>
 
@@ -56,30 +80,19 @@ export function Dashboard({ companies, payments }: DashboardProps) {
             <Calendar className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{totalPayments}</div>
-            <p className="text-xs text-gray-500 mt-1">All scheduled payments</p>
+            <div className="text-2xl font-bold">{completedPayments}</div>
+            <p className="text-xs text-gray-500 mt-1">Successfully completed</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm">Pending Payments</CardTitle>
-            <Users className="h-4 w-4 text-gray-500" />
+            <CardTitle className="text-sm">Total Paid</CardTitle>
+            <Wallet className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl">{pendingPayments}</div>
-            <p className="text-xs text-gray-500 mt-1">Awaiting processing</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm">Total Amount</CardTitle>
-            <Wallet className="h-4 w-4 text-gray-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl">{totalAmount.toLocaleString()} USDC</div>
-            <p className="text-xs text-gray-500 mt-1">Total scheduled</p>
+            <div className="text-2xl font-bold text-green-600">{totalPaid.toLocaleString()} USDC</div>
+            <p className="text-xs text-gray-500 mt-1">Lifetime payments</p>
           </CardContent>
         </Card>
       </div>
@@ -95,15 +108,37 @@ export function Dashboard({ companies, payments }: DashboardProps) {
             <div className="space-y-4">
               {recentPayments.map((payment) => {
                 const company = companies.find(c => c.id === payment.companyId);
+
+                // Format date and time
+                const formatDateTime = (timestamp?: number, dateString?: string) => {
+                  if (timestamp) {
+                    const date = new Date(timestamp * 1000);
+                    const dateStr = date.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric'
+                    });
+                    const timeStr = date.toLocaleTimeString('en-US', {
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    });
+                    return { date: dateStr, time: timeStr };
+                  }
+                  return { date: dateString || 'N/A', time: null };
+                };
+
+                const { date, time } = formatDateTime(payment.timestamp, payment.scheduledDate);
+
                 return (
                   <div key={payment.id} className="flex items-center justify-between border-b pb-3 last:border-0">
                     <div>
-                      <p>{payment.employeeName}</p>
+                      <p className="font-medium">{payment.employeeName}</p>
                       <p className="text-sm text-gray-500">{company?.name || 'Unknown Company'}</p>
                     </div>
                     <div className="text-right">
-                      <p>{payment.amount.toLocaleString()} USDC</p>
-                      <p className="text-sm text-gray-500">{payment.scheduledDate}</p>
+                      <p className="font-semibold">{payment.amount.toLocaleString()} USDC</p>
+                      <p className="text-sm text-gray-500">{date}</p>
+                      {time && <p className="text-xs text-gray-400">{time}</p>}
                     </div>
                   </div>
                 );

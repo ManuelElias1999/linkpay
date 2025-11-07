@@ -33,6 +33,9 @@ interface Payment {
   amount: number;
   scheduledDate: string;
   status: 'pending' | 'completed' | 'scheduled';
+  transactionHash?: string;
+  network?: string;
+  timestamp?: number;
 }
 
 type View = 'dashboard' | 'register' | 'employees' | 'schedule' | 'history';
@@ -47,6 +50,7 @@ export default function App() {
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
+  const [usdcBalance, setUsdcBalance] = useState<string>('0');
 
   // Connect wallet on mount
   useEffect(() => {
@@ -73,6 +77,18 @@ export default function App() {
       loadEmployees();
     }
   }, [selectedEmployeeCompanyId]);
+
+  useEffect(() => {
+    if (walletConnected && currentView === 'history') {
+      loadPaymentHistory();
+    }
+  }, [currentView, walletConnected, companyId]);
+
+  useEffect(() => {
+    if (walletConnected && currentView === 'dashboard') {
+      loadDashboardData();
+    }
+  }, [currentView, walletConnected, companyId]);
 
   async function checkIfWalletIsConnected() {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -176,10 +192,24 @@ export default function App() {
         scheduledDate: new Date(event.timestamp * 1000).toISOString().split('T')[0],
         status: event.status,
         transactionHash: event.transactionHash,
-        network: event.network
+        network: event.network,
+        timestamp: event.timestamp
       })));
     } catch (error) {
       console.error("Error loading payment history:", error);
+    }
+  }
+
+  async function loadDashboardData() {
+    try {
+      // Load USDC balance
+      const balance = await web3.getUSDCBalance();
+      setUsdcBalance(balance);
+
+      // Load payment history for dashboard stats
+      await loadPaymentHistory();
+    } catch (error) {
+      console.error("Error loading dashboard data:", error);
     }
   }
 
@@ -481,7 +511,13 @@ export default function App() {
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {currentView === 'dashboard' && (
-              <Dashboard companies={companies} payments={payments} />
+              <Dashboard
+                companies={companies}
+                payments={payments}
+                employees={employees}
+                currentCompanyId={companyId}
+                usdcBalance={usdcBalance}
+              />
           )}
           {currentView === 'register' && (
               <CompanyRegistration onRegister={handleRegisterCompany} />
