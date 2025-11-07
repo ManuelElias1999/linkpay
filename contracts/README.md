@@ -8,7 +8,7 @@
 
 ## Overview
 
-**CrossChain Payroll Automation** is a smart contract that enables automated payroll payments both within the same network (Base) and across different blockchains using **Chainlink Automation** and **Chainlink CCIP**.
+**PayrollManager_CCIP** is a smart contract that enables automated payroll payments both within the same network (Base) and across different blockchains using **Chainlink Automation** and **Chainlink CCIP**.
 
 With this system, companies can register employees, assign salaries, and automate payments on a recurring schedule. If the employee’s salary is meant to be sent to another blockchain, the system automatically executes a **cross-chain transfer** using **CCIP (Cross-Chain Interoperability Protocol)**.
 
