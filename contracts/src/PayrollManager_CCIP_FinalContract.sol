@@ -5,6 +5,19 @@ import {IRouterClient} from "@chainlink/contracts-ccip@1.6.2/contracts/interface
 import {Client} from "@chainlink/contracts-ccip@1.6.2/contracts/libraries/Client.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
+/**
+ * @title PayrollManager with Chainlink Automation & CCIP
+ * @notice This project is a payroll management platform for companies and employees, supporting USDC-based payment automation both on the same chain and cross-chain.
+ *
+ * @custom:verified-address Base Sepolia: 0x297599530b23464BD1920093Eb1aaB970b4c6B37
+ *
+ * - The contract allows companies to register, manage employees, and schedule or automate salary payments on multiple chains.
+ * - Chainlink Automation is used to automatically check if salary payouts are due and execute payments when needed, eliminating manual intervention.
+ *      - Main Automation logic can be found around lines 322 (function checkUpkeep) and 373 (function performUpkeep).
+ * - Chainlink CCIP (Cross-Chain Interoperability Protocol) enables secure, automated cross-chain token transfers for employee payments to other chains.
+ *      - Main CCIP logic is implemented around lines 429 (transferTokensPayLINK, transferTokensPayNative) to 596.
+**/
+
 /// ---------------------------------------------------------------
 ///                        INTERFACES
 /// ---------------------------------------------------------------
