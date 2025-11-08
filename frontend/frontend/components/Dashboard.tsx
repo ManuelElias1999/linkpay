@@ -38,7 +38,7 @@ export function Dashboard({ companies, payments, employees = [], usdcBalance = '
   const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
 
   const myEmployees = employees?.length || 0;
-  const companyName = companies[0]?.name || 'Dashboard';
+  const companyName = companies.filter(c => c.id === String(currentCompanyId))[0]?.name || 'Dashboard';
   const hasCompany = currentCompanyId && currentCompanyId > 0;
 
   const recentPayments = payments.slice(0, 5);

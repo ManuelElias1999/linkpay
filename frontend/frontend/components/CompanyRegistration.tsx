@@ -91,7 +91,9 @@ export function CompanyRegistration({ onRegister, walletConnected, walletAddress
                 </p>
               </div>
             )}
-
+            <CardDescription>
+              A $100 subscription fee will be charged when you register your company.
+            </CardDescription>
             <Button type="submit" className="w-full" disabled={!walletConnected || !formData.walletAddress}>
               Register Company
             </Button>
