@@ -10,6 +10,7 @@ import { Button } from '../components/ui/button';
 import { Toaster } from '../components/ui/sonner';
 import { toast } from 'sonner';
 import * as web3 from '../util/interact';
+import {PriceFeed} from "@/components/ui/price-feed";
 
 interface Company {
   id: string;
@@ -461,12 +462,12 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="bg-blue-600 p-2 rounded-lg">
-                  <Building2 className="h-6 w-6 text-white" />
+                <div className="p-2 rounded-lg">
+                  <img className="h-25 text-white" src={"logo.png"} />
                 </div>
                 <div>
                   <h1 className="text-xl">LinkPay</h1>
-                  <p className="text-sm text-gray-500">Company Payment Management</p>
+                  <p className="text-m text-gray-500">Company Payment Management</p>
                 </div>
               </div>
               <div>
@@ -483,7 +484,9 @@ export default function App() {
                     </div>
                     <div className="h-2 w-2 bg-green-500 rounded-full"></div>
                   </div>
+
                 )}
+                <PriceFeed />
               </div>
             </div>
           </div>
