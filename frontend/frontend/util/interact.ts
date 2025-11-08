@@ -342,16 +342,20 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
     const executedEvents = await payrollContract.queryFilter(executedFilter, fromBlock, currentBlock);
 
     for (const event of executedEvents) {
+      if (!provider) break; // Stop if provider is null
+
       const block = await provider.getBlock(event.blockNumber);
       const args = event.args as any;
 
       // Get employee details
       let employeeName = 'Unknown';
-      try {
-        const employee = await getEmployee(args.employeeId.toNumber());
-        employeeName = employee.name;
-      } catch (err) {
-        console.error('Error fetching employee:', err);
+      if (payrollContract) {
+        try {
+          const employee = await getEmployee(args.employeeId.toNumber());
+          employeeName = employee.name;
+        } catch (err) {
+          console.error('Error fetching employee:', err);
+        }
       }
 
       payments.push({
@@ -360,7 +364,7 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
         employeeId: args.employeeId.toNumber(),
         employeeName: employeeName,
         employeeWallet: args.wallet,
-        amount: ethers.utils.formatUnits(args.amount, 6),
+        amount: ethers.utils.formatUnits(args.amount, 18),
         timestamp: block.timestamp,
         transactionHash: event.transactionHash,
         status: 'completed',
@@ -372,16 +376,20 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
     const scheduledEvents = await payrollContract.queryFilter(scheduledFilter, fromBlock, currentBlock);
 
     for (const event of scheduledEvents) {
+      if (!provider) break; // Stop if provider is null
+
       const block = await provider.getBlock(event.blockNumber);
       const args = event.args as any;
 
       // Get employee details
       let employeeName = 'Unknown';
-      try {
-        const employee = await getEmployee(args.employeeId.toNumber());
-        employeeName = employee.name;
-      } catch (err) {
-        console.error('Error fetching employee:', err);
+      if (payrollContract) {
+        try {
+          const employee = await getEmployee(args.employeeId.toNumber());
+          employeeName = employee.name;
+        } catch (err) {
+          console.error('Error fetching employee:', err);
+        }
       }
 
       // Get network name from chain selector
@@ -403,7 +411,7 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
         employeeId: args.employeeId.toNumber(),
         employeeName: employeeName,
         employeeWallet: args.wallet,
-        amount: ethers.utils.formatUnits(args.amount, 6),
+        amount: ethers.utils.formatUnits(args.amount, 18),
         timestamp: block.timestamp,
         transactionHash: event.transactionHash,
         status: 'scheduled',

@@ -10,6 +10,7 @@ import { useState } from 'react';
 interface PaymentHistoryProps {
   companies: Company[];
   payments: Payment[];
+  currentCompanyId?: number;
 }
 
 interface Company {
@@ -32,17 +33,21 @@ interface Payment {
   timestamp?: number;
 }
 
-export function PaymentHistory({ companies, payments }: PaymentHistoryProps) {
-  const [filterCompany, setFilterCompany] = useState<string>('all');
+export function PaymentHistory({ companies, payments, currentCompanyId }: PaymentHistoryProps) {
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
+  // Filter payments by current company and status
   const filteredPayments = payments.filter((payment) => {
-    if (filterCompany !== 'all' && payment.companyId !== filterCompany) return false;
+    if (currentCompanyId && payment.companyId !== currentCompanyId.toString()) return false;
     if (filterStatus !== 'all' && payment.status !== filterStatus) return false;
     return true;
   });
+
+  // Get current company name
+  const currentCompany = companies.find(c => currentCompanyId && parseInt(c.id) === currentCompanyId);
+  const companyName = currentCompany?.name || 'My Company';
 
   const getStatusBadge = (status: string) => {
     const config = {
@@ -83,48 +88,29 @@ export function PaymentHistory({ companies, payments }: PaymentHistoryProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2>Payment History</h2>
+        <h2>{companyName} - Payment History</h2>
         <p className="text-gray-500">View all scheduled and completed payments</p>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Filters</CardTitle>
-          <CardDescription>Filter payments by company and status</CardDescription>
+          <CardDescription>Filter payments by status</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm">Company</label>
-              <Select value={filterCompany} onValueChange={setFilterCompany}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All companies" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Companies</SelectItem>
-                  {companies.map((company) => (
-                    <SelectItem key={company.id} value={company.id}>
-                      {company.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm">Status</label>
-              <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All statuses" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="scheduled">Scheduled</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <label className="text-sm">Status</label>
+            <Select value={filterStatus} onValueChange={setFilterStatus}>
+              <SelectTrigger>
+                <SelectValue placeholder="All statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="scheduled">Scheduled</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardContent>
       </Card>
