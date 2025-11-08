@@ -40,14 +40,17 @@ export function PaymentHistory({ companies, payments, currentCompanyId }: Paymen
 
   // Filter payments by current company and status
   const filteredPayments = payments.filter((payment) => {
-    if (currentCompanyId && payment.companyId !== currentCompanyId.toString()) return false;
+    if (currentCompanyId && currentCompanyId > 0 && payment.companyId !== currentCompanyId.toString()) return false;
     if (filterStatus !== 'all' && payment.status !== filterStatus) return false;
     return true;
   });
 
   // Get current company name
   const currentCompany = companies.find(c => currentCompanyId && parseInt(c.id) === currentCompanyId);
-  const companyName = currentCompany?.name || 'My Company';
+  const companyName = currentCompany?.name || 'Payment History';
+
+  // Show message if no company is registered
+  const hasCompany = currentCompanyId && currentCompanyId > 0;
 
   const getStatusBadge = (status: string) => {
     const config = {
@@ -88,15 +91,31 @@ export function PaymentHistory({ companies, payments, currentCompanyId }: Paymen
   return (
     <div className="space-y-6">
       <div>
-        <h2>{companyName} - Payment History</h2>
-        <p className="text-gray-500">View all scheduled and completed payments</p>
+        <h2>{companyName}</h2>
+        <p className="text-gray-500">
+          {hasCompany ? 'View all scheduled and completed payments' : 'Register your company to view payment history'}
+        </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Filters</CardTitle>
-          <CardDescription>Filter payments by status</CardDescription>
-        </CardHeader>
+      {!hasCompany && (
+        <Card>
+          <CardContent className="py-12">
+            <div className="text-center">
+              <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">No company registered</p>
+              <p className="text-sm text-gray-400 mt-1">Register your company to start tracking payments</p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {hasCompany && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Filters</CardTitle>
+              <CardDescription>Filter payments by status</CardDescription>
+            </CardHeader>
         <CardContent>
           <div className="space-y-2">
             <label className="text-sm">Status</label>
@@ -341,6 +360,8 @@ export function PaymentHistory({ companies, payments, currentCompanyId }: Paymen
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );

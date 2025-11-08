@@ -57,19 +57,32 @@ export function EmployeeList({ employees, companies, currentCompanyId, onDelete,
 
   // Get current company name
   const currentCompany = companies.find(c => parseInt(c.id) === currentCompanyId);
-  const companyName = currentCompany?.name || 'My Company';
+  const companyName = currentCompany?.name || 'Employees';
+  const hasCompany = currentCompanyId && currentCompanyId > 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2>{companyName} - Employees</h2>
-          <p className="text-gray-500">Manage your registered employees</p>
+          <h2>{hasCompany ? `${companyName} - Employees` : 'Employees'}</h2>
+          <p className="text-gray-500">
+            {hasCompany ? 'Manage your registered employees' : 'Register your company to add employees'}
+          </p>
         </div>
-        <Badge variant="secondary">{employees.length} Employees</Badge>
+        {hasCompany && <Badge variant="secondary">{employees.length} Employees</Badge>}
       </div>
 
-      {employees.length === 0 ? (
+      {!hasCompany ? (
+        <Card>
+          <CardContent className="py-12">
+            <div className="text-center">
+              <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">No company registered</p>
+              <p className="text-sm text-gray-400 mt-1">Register your company to start adding employees</p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : employees.length === 0 ? (
         <Card>
           <CardContent className="py-12">
             <div className="text-center">

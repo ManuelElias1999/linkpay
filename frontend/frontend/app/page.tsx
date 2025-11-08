@@ -576,7 +576,6 @@ export default function App() {
                 employees={employees}
                 currentCompanyId={companyId}
                 usdcBalance={usdcBalance}
-                walletConnected={walletConnected}
               />
           )}
           {currentView === 'register' && (

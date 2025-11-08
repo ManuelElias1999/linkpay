@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4dae7ec-1c22-43bb-b870-bce345b7d4a2" name="Changes" comment="feat: update USDC approval allowance to reflect correct value and improve comment clarity">
+    <list default="true" id="d4dae7ec-1c22-43bb-b870-bce345b7d4a2" name="Changes" comment="feat: enhance company registration and employee list with wallet connection handling and improved payment status display">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/components/CompanyRegistration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/components/CompanyRegistration.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/frontend/components/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/components/Dashboard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/frontend/components/EmployeeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/components/EmployeeList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/frontend/components/PaymentHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/components/PaymentHistory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend/util/interact.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend/util/interact.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +66,7 @@
     <MESSAGE value="feat: enhance dashboard with employee count and USDC balance display" />
     <MESSAGE value="feat: refactor calendar and chart components for improved icon handling and tooltip structure" />
     <MESSAGE value="feat: update USDC approval allowance to reflect correct value and improve comment clarity" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update USDC approval allowance to reflect correct value and improve comment clarity" />
+    <MESSAGE value="feat: enhance company registration and employee list with wallet connection handling and improved payment status display" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: enhance company registration and employee list with wallet connection handling and improved payment status display" />
   </component>
 </project>

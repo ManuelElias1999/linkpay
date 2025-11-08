@@ -6,6 +6,7 @@ interface DashboardProps {
   payments: Payment[];
   employees?: Employee[];
   usdcBalance?: string;
+  currentCompanyId?: number;
 }
 
 interface Employee {
@@ -32,12 +33,13 @@ interface Payment {
   timestamp?: number;
 }
 
-export function Dashboard({ companies, payments, employees = [], usdcBalance = '0' }: DashboardProps) {
+export function Dashboard({ companies, payments, employees = [], usdcBalance = '0', currentCompanyId }: DashboardProps) {
   const completedPayments = payments.filter(p => p.status === 'completed').length;
   const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
 
   const myEmployees = employees?.length || 0;
   const companyName = companies[0]?.name || 'Dashboard';
+  const hasCompany = currentCompanyId && currentCompanyId > 0;
 
   const recentPayments = payments.slice(0, 5);
 
@@ -45,10 +47,24 @@ export function Dashboard({ companies, payments, employees = [], usdcBalance = '
     <div className="space-y-6">
       <div>
         <h2>{companyName}</h2>
-        <p className="text-gray-500">Overview of your company payment system</p>
+        <p className="text-gray-500">
+          {hasCompany ? 'Overview of your company payment system' : 'Register your company to get started'}
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {!hasCompany ? (
+        <Card>
+          <CardContent className="py-12">
+            <div className="text-center">
+              <Wallet className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">No company registered</p>
+              <p className="text-sm text-gray-400 mt-1">Connect your wallet and register your company to start managing payments</p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm">My Employees</CardTitle>
@@ -143,6 +159,8 @@ export function Dashboard({ companies, payments, employees = [], usdcBalance = '
           )}
         </CardContent>
       </Card>
+      </>
+    )}
     </div>
   );
 }
