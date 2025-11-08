@@ -44,6 +44,9 @@ For tests, the **CCIP-BnM token** can be routed through Chainlink and bridged ac
 
 **Note:** On mainnet, **CCIP-BnM** is replaced with **USDC** for actual payments.
 
+### Flow Diagram
+![Flow Diagram](./images/diagrama.jpeg)
+
 ---
 
 ## 🚀 Key Features
@@ -139,7 +142,19 @@ Open an issue in the GitHub repository or contact the development team for assis
 
 **Built with ❤️ for decentralized, cross-chain payroll management.**
 
-## 🖼️ Screenshots & Diagrams
+## 🖼️ Screenshots
 
-### Flow Diagram
-![Flow Diagram](./images/diagrama.jpeg)
+### Chainlink Automation
+![Chainlink Automation](./images/Automation_LinkPay.png)
+
+### Payment in Base
+![Payment in Base](./images/Base.png)
+
+### Payment in Arbitrum
+![Payment in Arbitrum](./images/CCIP_Arbitrum.pngg)
+
+### Payment in Avalanche
+![Payment in Avalanche](./images/CCIP_Avalanche.png)
+
+### Payment in Ethereum
+![Payment in Ethereum](./images/CCIP_Ethereum.png)
