@@ -676,6 +676,7 @@ export default function App() {
                 employees={employees}
                 currentCompanyId={companyId}
                 usdcBalance={usdcBalance}
+                onNavigateToRegister={() => setCurrentView('register')}
               />
           )}
           {currentView === 'register' && (

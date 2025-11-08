@@ -1,5 +1,6 @@
 import { Wallet, Users, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import {NotAvailable} from "@/components/ui/not-available";
 
 interface DashboardProps {
   companies: Company[];
@@ -7,6 +8,7 @@ interface DashboardProps {
   employees?: Employee[];
   usdcBalance?: string;
   currentCompanyId?: number;
+  onNavigateToRegister: () => void;
 }
 
 interface Employee {
@@ -33,26 +35,38 @@ interface Payment {
   timestamp?: number;
 }
 
-export function Dashboard({ companies, payments, employees = [], usdcBalance = '0', currentCompanyId }: DashboardProps) {
+export function Dashboard({ companies, payments, employees = [], usdcBalance = '0', currentCompanyId, onNavigateToRegister }: DashboardProps) {
   const completedPayments = payments.filter(p => p.status === 'completed').length;
   const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
 
   const myEmployees = employees?.length || 0;
-  const companyName = companies.filter(c => c.id === String(currentCompanyId))[0]?.name || 'Dashboard';
-  const hasCompany = currentCompanyId && currentCompanyId > 0;
+  let companyName = 'Dashboard';
+  const hasNoCompanies = companies.length === 0 || !currentCompanyId || currentCompanyId <= 0;
+  
+  if(!hasNoCompanies && currentCompanyId && currentCompanyId > 0){
+    companyName = companies.filter(c => c.id === String(currentCompanyId))[0]?.name;
+  }
 
   const recentPayments = payments.slice(0, 5);
 
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {hasNoCompanies && (
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-40 rounded-lg" />
+      )}
+      <NotAvailable hasNoCompanies={hasNoCompanies} onNavigateToRegister={onNavigateToRegister} />
+
+      {/* Main content */}
+      <div className={hasNoCompanies ? 'pointer-events-none select-none' : ''}>
       <div>
         <h2>{companyName}</h2>
         <p className="text-gray-500">
-          {hasCompany ? 'Overview of your company payment system' : 'Register your company to get started'}
+          {hasNoCompanies ? 'Register your company to get started' : 'Overview of your company payment system'}
         </p>
       </div>
 
-      {!hasCompany ? (
+      {hasNoCompanies ? (
         <Card>
           <CardContent className="py-12">
             <div className="text-center">
@@ -161,6 +175,7 @@ export function Dashboard({ companies, payments, employees = [], usdcBalance = '
       </Card>
       </>
     )}
+      </div>
     </div>
   );
 }
