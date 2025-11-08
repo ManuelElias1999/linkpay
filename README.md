@@ -1,8 +1,11 @@
 # LinkPay – Automated Cross-Chain Payroll System
 
 **dApp:** [https://linkpay-seven.vercel.app/](https://linkpay-seven.vercel.app/)
+
 **Smart Contract (Base Sepolia):** [0x291AB221FB0E8C8EEE246E9476Bb2E892D82DcaB](https://sepolia.basescan.org/address/0x291AB221FB0E8C8EEE246E9476Bb2E892D82DcaB#code)
+
 **GitHub Repository:** [https://github.com/ManuelElias1999/LinkPay](https://github.com/ManuelElias1999/LinkPay)
+
 **Slides / Presentation:** [https://gamma.app/docs/LinkPay-Secure-Payments-on-the-Blockchain-8ofb4o7ffjy3wmr?mode=doc](https://gamma.app/docs/LinkPay-Secure-Payments-on-the-Blockchain-8ofb4o7ffjy3wmr?mode=doc)
 
 ---
@@ -139,4 +142,4 @@ Open an issue in the GitHub repository or contact the development team for assis
 ## 🖼️ Screenshots & Diagrams
 
 ### Flow Diagram
-![Flow Diagram](imagenes/diagrama.jpeg)
+![Flow Diagram](./images/diagrama.jpeg)
