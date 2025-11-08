@@ -2,9 +2,7 @@
 
 ### Verified Contract on Base Sepolia
 
-**Address:** [0x297599530b23464BD1920093Eb1aaB970b4c6B37 - routescan](https://testnet.routescan.io/address/0x297599530b23464BD1920093Eb1aaB970b4c6B37/contract/84532/code)
-**Address:** [0x297599530b23464BD1920093Eb1aaB970b4c6B37 - sourcify](https://repo.sourcify.dev/84532/0x297599530b23464BD1920093Eb1aaB970b4c6B37)
-**Address:** [0x297599530b23464BD1920093Eb1aaB970b4c6B37 - blockscout](https://base-sepolia.blockscout.com/address/0x297599530b23464BD1920093Eb1aaB970b4c6B37?tab=contract)
+**Address:** [0x291AB221FB0E8C8EEE246E9476Bb2E892D82DcaB - base sepolia scan](https://sepolia.basescan.org/address/0x291AB221FB0E8C8EEE246E9476Bb2E892D82DcaB#code)
 
 
 ---
@@ -14,6 +12,14 @@
 **PayrollManager_CCIP** is a smart contract that enables automated payroll payments both within the same network (Base) and across different blockchains using **Chainlink Automation** and **Chainlink CCIP**.
 
 With this system, companies can register employees, assign salaries, and automate payments on a recurring schedule. If the employee’s salary is meant to be sent to another blockchain, the system automatically executes a **cross-chain transfer** using **CCIP (Cross-Chain Interoperability Protocol)**.
+
+**¡IMPORTANT!**
+
+For the tests we conducted with the CCIP-BnM token, you can route it through Chainlink and bridge it across different testnet chains. To access the test data, use the following link and make sure to fund your wallet with the test tokens provided:
+
+https://docs.chain.link/ccip/test-tokens#evm-chains
+
+**Note:** On mainnet, the CCIP-BnM test token would be replaced with USDC for actual payments.
 
 ---
 
@@ -78,7 +84,7 @@ With this system, companies can register employees, assign salaries, and automat
 
 ### Chainlink Automation (Base)
 
-* [Automation Job #80472880954508613833832536401671085047210258528964702769061970811236434835138](https://automation.chain.link/base-sepolia/80472880954508613833832536401671085047210258528964702769061970811236434835138)
+* [Automation Job #11623266313200175774606363566783487473348076353396846959213170282542982965693](https://automation.chain.link/base-sepolia/11623266313200175774606363566783487473348076353396846959213170282542982965693)
 * [Automation Screenshot](https://drive.google.com/file/d/1lA4mO37een5xVjdswokDiVvWpaJdKLPx/view?usp=sharing)
 
 ---
