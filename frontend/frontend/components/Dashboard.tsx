@@ -1,11 +1,10 @@
-import { Building2, Wallet, Users, Calendar } from 'lucide-react';
+import { Wallet, Users, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
 interface DashboardProps {
   companies: Company[];
   payments: Payment[];
   employees?: Employee[];
-  currentCompanyId?: number;
   usdcBalance?: string;
 }
 
@@ -33,21 +32,19 @@ interface Payment {
   timestamp?: number;
 }
 
-export function Dashboard({ companies, payments, employees = [], currentCompanyId = 0, usdcBalance = '0' }: DashboardProps) {
-  const totalCompanies = companies.length;
-  const totalPayments = payments.length;
+export function Dashboard({ companies, payments, employees = [], usdcBalance = '0' }: DashboardProps) {
   const completedPayments = payments.filter(p => p.status === 'completed').length;
   const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
 
-  // Filter employees for current company
-  const myEmployees = employees.length;
+  const myEmployees = employees?.length || 0;
+  const companyName = companies[0]?.name || 'Dashboard';
 
   const recentPayments = payments.slice(0, 5);
 
   return (
     <div className="space-y-6">
       <div>
-        <h2>Dashboard</h2>
+        <h2>{companyName}</h2>
         <p className="text-gray-500">Overview of your company payment system</p>
       </div>
 
@@ -133,7 +130,6 @@ export function Dashboard({ companies, payments, employees = [], currentCompanyI
                   <div key={payment.id} className="flex items-center justify-between border-b pb-3 last:border-0">
                     <div>
                       <p className="font-medium">{payment.employeeName}</p>
-                      <p className="text-sm text-gray-500">{company?.name || 'Unknown Company'}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">{payment.amount.toLocaleString()} USDC</p>
