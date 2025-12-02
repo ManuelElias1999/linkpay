@@ -404,7 +404,6 @@ export default function App() {
         data.name,
         data.walletAddress,
         employee.destinationChainSelector,
-        employee.receiverContract,
         employee.salary,
         employee.nextPayDate,
         true
