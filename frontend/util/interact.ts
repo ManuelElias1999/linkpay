@@ -352,48 +352,72 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
     const getNetworkName = (chainSelector: number): string => {
       const networks: Record<number, string> = {
         0: 'Base',
-        1: 'Arbitrum'
+        1: 'Avalanche'
       };
       return networks[chainSelector] || 'Base';
     };
 
-    // Build filter for PaymentExecuted events (completed payments)
+    // Build filter for EmployeeAdded events (payment happens on add)
+    const employeeAddedFilter = companyId
+      ? payrollContract.filters.EmployeeAdded(companyId)
+      : payrollContract.filters.EmployeeAdded();
+
+    // Fetch EmployeeAdded events - these represent payments since payment happens on add
+    const employeeAddedEvents = await payrollContract.queryFilter(employeeAddedFilter, fromBlock, currentBlock);
+
+    console.log('Found EmployeeAdded events:', employeeAddedEvents.length);
+
+    for (const event of employeeAddedEvents) {
+      if (!provider) break;
+
+      const block = await provider.getBlock(event.blockNumber);
+      const args = event.args as any;
+
+      console.log('EmployeeAdded event args:', {
+        companyId: args.companyId?.toNumber(),
+        employeeId: args.employeeId?.toNumber(),
+        name: args.name,
+        wallet: args.wallet,
+        salary: args.salary?.toString(),
+        allArgs: Object.keys(args)
+      });
+
+      payments.push({
+        id: `${event.transactionHash}-${event.logIndex}`,
+        companyId: args.companyId.toNumber(),
+        employeeId: args.employeeId ? args.employeeId.toNumber() : 0,
+        employeeName: args.name || 'Unknown',
+        employeeWallet: args.wallet,
+        amount: ethers.utils.formatUnits(args.salary, 6), // USDC has 6 decimals
+        timestamp: block.timestamp,
+        transactionHash: event.transactionHash,
+        status: 'completed', // Payment is completed when employee is added
+        blockNumber: event.blockNumber
+      });
+    }
+
+    // Also check PaymentExecuted events for any additional payments
     const executedFilter = companyId
       ? payrollContract.filters.PaymentExecuted(companyId)
       : payrollContract.filters.PaymentExecuted();
 
-    // Build filter for PaymentScheduled events (scheduled payments on employee add)
-    const scheduledFilter = companyId
-      ? payrollContract.filters.PaymentScheduled(companyId)
-      : payrollContract.filters.PaymentScheduled();
-
-    // Fetch PaymentExecuted events
     const executedEvents = await payrollContract.queryFilter(executedFilter, fromBlock, currentBlock);
 
-    // Process executed payment events
+    console.log('Found PaymentExecuted events:', executedEvents.length);
+
     for (const event of executedEvents) {
       if (!provider) break;
 
       const block = await provider.getBlock(event.blockNumber);
       const args = event.args as any;
 
-      console.log('PaymentExecuted event args:', {
-        companyId: args.companyId?.toNumber(),
-        employeeId: args.employeeId?.toNumber(),
-        wallet: args.wallet,
-        amount: args.amount?.toString(),
-        allArgs: Object.keys(args)
-      });
-
       // Get employee details
       let employeeName = 'Unknown';
-      if (payrollContract) {
-        try {
-          const employee = await getEmployee(args.employeeId.toNumber());
-          employeeName = employee.name;
-        } catch (err) {
-          console.error('Error fetching employee:', err);
-        }
+      try {
+        const employee = await getEmployee(args.employeeId.toNumber());
+        employeeName = employee.name;
+      } catch (err) {
+        console.error('Error fetching employee:', err);
       }
 
       payments.push({
@@ -402,7 +426,7 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
         employeeId: args.employeeId ? args.employeeId.toNumber() : 0,
         employeeName: employeeName,
         employeeWallet: args.wallet,
-        amount: ethers.utils.formatUnits(args.amount, 6), // USDC has 6 decimals
+        amount: ethers.utils.formatUnits(args.amount, 6),
         timestamp: block.timestamp,
         transactionHash: event.transactionHash,
         status: 'completed',
@@ -410,64 +434,20 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
       });
     }
 
-    // Fetch PaymentScheduled events
-    const scheduledEvents = await payrollContract.queryFilter(scheduledFilter, fromBlock, currentBlock);
+    // Sort by timestamp (most recent first) and remove duplicates by id
+    const uniquePayments = payments.filter((payment, index, self) =>
+      index === self.findIndex(p => p.id === payment.id)
+    );
+    uniquePayments.sort((a, b) => b.timestamp - a.timestamp);
 
-    for (const event of scheduledEvents) {
-      if (!provider) break;
-
-      const block = await provider.getBlock(event.blockNumber);
-      const args = event.args as any;
-
-      console.log('PaymentScheduled event args:', {
-        companyId: args.companyId?.toNumber(),
-        employeeId: args.employeeId?.toNumber(),
-        wallet: args.wallet,
-        amount: args.amount?.toString(),
-        destChain: args.destChain?.toString(),
-        receiver: args.receiver,
-        allArgs: Object.keys(args)
-      });
-
-      // Get employee details
-      let employeeName = 'Unknown';
-      if (payrollContract) {
-        try {
-          const employee = await getEmployee(args.employeeId.toNumber());
-          employeeName = employee.name;
-        } catch (err) {
-          console.error('Error fetching employee:', err);
-        }
-      }
-
-      const destChain = args.destChain ? Number(args.destChain) : 0;
-
-      payments.push({
-        id: `${event.transactionHash}-${event.logIndex}`,
-        companyId: args.companyId.toNumber(),
-        employeeId: args.employeeId ? args.employeeId.toNumber() : 0,
-        employeeName: employeeName,
-        employeeWallet: args.wallet,
-        amount: ethers.utils.formatUnits(args.amount, 6), // USDC has 6 decimals
-        timestamp: block.timestamp,
-        transactionHash: event.transactionHash,
-        status: 'scheduled',
-        network: getNetworkName(destChain),
-        blockNumber: event.blockNumber
-      });
-    }
-
-    // Sort by timestamp (most recent first)
-    payments.sort((a, b) => b.timestamp - a.timestamp);
-
-    console.log('Final payment history:', payments.map(p => ({
+    console.log('Final payment history:', uniquePayments.map(p => ({
       employeeId: p.employeeId,
       employeeName: p.employeeName,
       status: p.status,
       amount: p.amount
     })));
 
-    return payments;
+    return uniquePayments;
   } catch (error) {
     console.error("Error fetching payment history:", error);
     throw error;
