@@ -138,16 +138,33 @@ export default function App() {
     try {
       // Get the current user's company ID
       const cid = await web3.getCompanyOfOwner(account);
-      setCompanyId(cid);
 
-      // Load all companies for the selector
+      // Check if company is active
+      if (cid > 0) {
+        const companyData = await web3.getCompany(cid);
+        if (companyData.active) {
+          setCompanyId(cid);
+        } else {
+          // Company is deactivated, treat as no company
+          setCompanyId(0);
+          setEmployees([]);
+          setPayments([]);
+          console.log('Company is deactivated, not loading data');
+        }
+      } else {
+        setCompanyId(0);
+      }
+
+      // Load all active companies for the selector
       const allCompanies = await web3.getAllCompanies();
-      setCompanies(allCompanies.map((company: any) => ({
-        id: company.companyId.toString(),
-        name: company.name,
-        walletAddress: company.owner,
-        registrationDate: new Date(company.registrationDate * 1000).toISOString().split('T')[0]
-      })));
+      setCompanies(allCompanies
+        .filter((company: any) => company.active) // Only show active companies
+        .map((company: any) => ({
+          id: company.companyId.toString(),
+          name: company.name,
+          walletAddress: company.owner,
+          registrationDate: new Date(company.registrationDate * 1000).toISOString().split('T')[0]
+        })));
     } catch (error) {
       console.error("Error loading company data:", error);
     }
