@@ -319,15 +319,26 @@ export function PaymentHistory({ companies, payments, currentCompanyId }: Paymen
                       )}
                     </Button>
                   </div>
-                  <a
-                    href={`https://basescan.org/tx/${selectedPayment.transactionHash}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
-                  >
-                    View on Block Explorer
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
+                  <div className="mt-2 flex flex-col gap-2">
+                    <a
+                      href={`https://basescan.org/tx/${selectedPayment.transactionHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
+                    >
+                      View on Block Explorer
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                    <a
+                      href={`https://wormholescan.io/#/tx/${selectedPayment.transactionHash}?network=Mainnet`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-purple-600 hover:text-purple-800"
+                    >
+                      View on Wormhole Explorer
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
                 </div>
               )}
 

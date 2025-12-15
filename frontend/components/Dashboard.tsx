@@ -36,18 +36,23 @@ interface Payment {
 }
 
 export function Dashboard({ companies, payments, employees = [], usdcBalance = '0', currentCompanyId, onNavigateToRegister }: DashboardProps) {
-  const completedPayments = payments.filter(p => p.status === 'completed').length;
-  const totalPaid = payments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
+  // Filter payments to only show current company's payments
+  const myPayments = currentCompanyId && currentCompanyId > 0
+    ? payments.filter(p => p.companyId === String(currentCompanyId))
+    : [];
+
+  const completedPayments = myPayments.filter(p => p.status === 'completed').length;
+  const totalPaid = myPayments.filter(p => p.status === 'completed').reduce((sum, p) => sum + p.amount, 0);
 
   const myEmployees = employees?.length || 0;
   let companyName = 'Dashboard';
   const hasNoCompanies = companies.length === 0 || !currentCompanyId || currentCompanyId <= 0;
-  
+
   if(!hasNoCompanies && currentCompanyId && currentCompanyId > 0){
     companyName = companies.filter(c => c.id === String(currentCompanyId))[0]?.name;
   }
 
-  const recentPayments = payments.slice(0, 5);
+  const recentPayments = myPayments.slice(0, 5);
 
 
   return (
