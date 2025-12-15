@@ -1,13 +1,13 @@
 import { ethers } from 'ethers';
 
 // LinkPayWormhole Contract Address - Wormhole CCTP Version
-export const PAYROLL_CONTRACT_ADDRESS = "0xe7335Ee6af0bE5288daeC898Cf74D51D3eE92A2e";
+export const PAYROLL_CONTRACT_ADDRESS = "0xc10559298Ae52dcCa03BfE065d803Cb23FB879e5";
 
 // USDC Contract Address on Base Sepolia
-export const USDC_CONTRACT_ADDRESS = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+export const USDC_CONTRACT_ADDRESS = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
 // LinkPayWormhole ABI
-export const PAYROLL_ABI = [{"inputs":[{"internalType":"address","name":"_usdc","type":"address"},{"internalType":"address","name":"_feeWallet","type":"address"},{"internalType":"uint256","name":"_registrationFee","type":"uint256"},{"internalType":"address","name":"_wormholeCircleBridge","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"ChainNotAllowed","type":"error"},{"inputs":[],"name":"CompanyInactive","type":"error"},{"inputs":[],"name":"EmployeeInactive","type":"error"},{"inputs":[],"name":"InsufficientAllowance","type":"error"},{"inputs":[],"name":"InvalidAmount","type":"error"},{"inputs":[],"name":"InvalidChain","type":"error"},{"inputs":[],"name":"NotCompanyOwner","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"inputs":[],"name":"TransferFailed","type":"error"},{"inputs":[],"name":"ZeroAddress","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"string","name":"name","type":"string"}],"name":"CompanyRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":false,"internalType":"string","name":"name","type":"string"},{"indexed":false,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"salary","type":"uint256"},{"indexed":false,"internalType":"uint16","name":"wormholeChainId","type":"uint16"}],"name":"EmployeeAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"}],"name":"EmployeeDeactivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"}],"name":"EmployeeUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newInterval","type":"uint256"}],"name":"IntervalUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"PaymentExecutedLocal","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint16","name":"targetChain","type":"uint16"},{"indexed":false,"internalType":"uint64","name":"wormholeSequence","type":"uint64"}],"name":"PaymentExecutedViaWormhole","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint16","name":"wormholeChainId","type":"uint16"}],"name":"PaymentScheduled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newFee","type":"uint256"}],"name":"RegistrationFeeUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint16","name":"wormholeChainId","type":"uint16"},{"indexed":false,"internalType":"bool","name":"allowed","type":"bool"}],"name":"WormholeChainAllowed","type":"event"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"}],"name":"activateCompany","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"address","name":"_wallet","type":"address"},{"internalType":"uint16","name":"_wormholeChainId","type":"uint16"},{"internalType":"uint256","name":"_salary","type":"uint256"}],"name":"addEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"},{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"adminDeactivateEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint16","name":"","type":"uint16"}],"name":"allowedWormholeChains","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes","name":"","type":"bytes"}],"name":"checkUpkeep","outputs":[{"internalType":"bool","name":"upkeepNeeded","type":"bool"},{"internalType":"bytes","name":"performData","type":"bytes"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"companies","outputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"string","name":"name","type":"string"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"registrationDate","type":"uint256"},{"internalType":"uint256","name":"companyId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"companyIds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"companyOfOwner","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"}],"name":"deactivateCompany","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"deactivateEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"employees","outputs":[{"internalType":"uint256","name":"companyId","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"address","name":"wallet","type":"address"},{"internalType":"uint16","name":"wormholeChainId","type":"uint16"},{"internalType":"uint256","name":"salary","type":"uint256"},{"internalType":"uint256","name":"nextPayDate","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"employeeId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feeWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"getCompanyIdByOwner","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCompanyIds","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"getEmployee","outputs":[{"internalType":"uint256","name":"companyId","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"address","name":"wallet","type":"address"},{"internalType":"uint16","name":"wormholeChainId","type":"uint16"},{"internalType":"uint256","name":"salary","type":"uint256"},{"internalType":"uint256","name":"nextPayDate","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"employeeId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"}],"name":"getEmployeesOfCompany","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"interval","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastCheckedCompanyIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastCheckedEmployeeIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextCompanyId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextEmployeeId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"payEmployeeViaWormhole","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"bytes","name":"performData","type":"bytes"}],"name":"performUpkeep","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"}],"name":"registerCompany","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"registrationFee","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"_wormholeChainId","type":"uint16"},{"internalType":"bool","name":"_allowed","type":"bool"}],"name":"setAllowedWormholeChain","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_interval","type":"uint256"}],"name":"setInterval","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_fee","type":"uint256"}],"name":"setRegistrationFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"},{"internalType":"string","name":"_name","type":"string"},{"internalType":"address","name":"_wallet","type":"address"},{"internalType":"uint16","name":"_wormholeChainId","type":"uint16"},{"internalType":"uint256","name":"_salary","type":"uint256"},{"internalType":"uint256","name":"_nextPayDate","type":"uint256"},{"internalType":"bool","name":"_active","type":"bool"}],"name":"updateEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"usdc","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_beneficiary","type":"address"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_beneficiary","type":"address"},{"internalType":"address","name":"_token","type":"address"}],"name":"withdrawToken","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"wormholeCircleBridge","outputs":[{"internalType":"contract ICircleIntegration","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}];
+export const PAYROLL_ABI = [{"inputs":[{"internalType":"address","name":"_usdc","type":"address"},{"internalType":"address","name":"_feewallet","type":"address"},{"internalType":"uint256","name":"_registrationFee","type":"uint256"},{"internalType":"address","name":"_sender","type":"address"},{"internalType":"address","name":"_avalancheReceiver","type":"address"},{"internalType":"uint16","name":"_avalancheChainId","type":"uint16"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"string","name":"name","type":"string"}],"name":"CompanyRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":false,"internalType":"string","name":"name","type":"string"},{"indexed":false,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"salary","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"nextPayDate","type":"uint256"}],"name":"EmployeeAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"}],"name":"EmployeeDeactivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"}],"name":"EmployeeUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newInterval","type":"uint256"}],"name":"IntervalUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"PaymentExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"companyId","type":"uint256"},{"indexed":true,"internalType":"uint256","name":"employeeId","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint64","name":"destChain","type":"uint64"},{"indexed":false,"internalType":"address","name":"receiver","type":"address"}],"name":"PaymentScheduled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newFee","type":"uint256"}],"name":"RegistrationFeeUpdated","type":"event"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"}],"name":"activateCompany","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"address","name":"_wallet","type":"address"},{"internalType":"uint64","name":"_destinationChainSelector","type":"uint64"},{"internalType":"address","name":"_receiverContract","type":"address"},{"internalType":"uint256","name":"_salary","type":"uint256"}],"name":"addEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"},{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"adminDeactivateEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"avalancheChainId","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"avalancheReceiver","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes","name":"","type":"bytes"}],"name":"checkUpkeep","outputs":[{"internalType":"bool","name":"upkeepNeeded","type":"bool"},{"internalType":"bytes","name":"performData","type":"bytes"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"companies","outputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"string","name":"name","type":"string"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"registrationDate","type":"uint256"},{"internalType":"uint256","name":"companyId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"companyIds","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"companyOfOwner","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"}],"name":"deactivateCompany","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"deactivateEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"depositFees","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"employees","outputs":[{"internalType":"uint256","name":"companyId","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"address","name":"wallet","type":"address"},{"internalType":"uint64","name":"destinationChainSelector","type":"uint64"},{"internalType":"address","name":"receiverContract","type":"address"},{"internalType":"uint256","name":"salary","type":"uint256"},{"internalType":"uint256","name":"nextPayDate","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"employeeId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"feeBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"feeWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCompanyIds","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"}],"name":"getEmployee","outputs":[{"internalType":"uint256","name":"companyId","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"address","name":"wallet","type":"address"},{"internalType":"uint64","name":"destinationChainSelector","type":"uint64"},{"internalType":"address","name":"receiverContract","type":"address"},{"internalType":"uint256","name":"salary","type":"uint256"},{"internalType":"uint256","name":"nextPayDate","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"employeeId","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_companyId","type":"uint256"}],"name":"getEmployeesOfCompany","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"interval","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastCheckedCompanyIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastCheckedEmployeeIndex","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextCompanyId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextEmployeeId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes","name":"performData","type":"bytes"}],"name":"performUpkeep","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"quote","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"}],"name":"registerCompany","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"registrationFee","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"sender","outputs":[{"internalType":"contract ICrossChainSender","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_interval","type":"uint256"}],"name":"setInterval","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_fee","type":"uint256"}],"name":"setRegistrationFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"tokenTransferor","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_employeeId","type":"uint256"},{"internalType":"string","name":"_name","type":"string"},{"internalType":"address","name":"_wallet","type":"address"},{"internalType":"uint64","name":"_destinationChainSelector","type":"uint64"},{"internalType":"address","name":"_receiverContract","type":"address"},{"internalType":"uint256","name":"_salary","type":"uint256"},{"internalType":"uint256","name":"_nextPayDate","type":"uint256"},{"internalType":"bool","name":"_active","type":"bool"}],"name":"updateEmployee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"usdc","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawFees","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
 
 // ERC20 ABI (for USDC approval)
 export const ERC20_ABI = [
@@ -24,8 +24,8 @@ let account: string = "";
 let payrollContract: ethers.Contract | null = null;
 let usdcContract: ethers.Contract | null = null;
 
-// Chain ID for Base Sepolia testnet (84532) - Change if using different network
-const CHAIN_ID = "0x14a34"; // 84532 in hex
+// Chain ID for Base mainnet (8453)
+const CHAIN_ID = "0x2105"; // 8453 in hex
 
 export interface WalletState {
   account: string;
@@ -60,14 +60,14 @@ export async function connectWallet(): Promise<WalletState> {
           method: 'wallet_addEthereumChain',
           params: [{
             chainId: CHAIN_ID,
-            chainName: 'Base Sepolia',
+            chainName: 'Base',
             nativeCurrency: {
               name: 'Ethereum',
               symbol: 'ETH',
               decimals: 18
             },
-            rpcUrls: ['https://sepolia.base.org'],
-            blockExplorerUrls: ['https://sepolia-explorer.base.org']
+            rpcUrls: ['https://mainnet.base.org'],
+            blockExplorerUrls: ['https://basescan.org']
           }],
         });
       }
@@ -210,26 +210,38 @@ export async function getAllCompanies(): Promise<any[]> {
 export async function addEmployee(
   name: string,
   wallet: string,
-  wormholeChainId: number,
+  destinationChainSelector: number,
   salary: string
 ): Promise<ethers.providers.TransactionReceipt> {
   if (!payrollContract || !account) throw new Error("Contract not initialized");
 
-  const salaryWei = ethers.utils.parseUnits(salary, 6); // USDC has 6 decimals
+  // IMPORTANT: salary is already in USDC decimal format (e.g., "0.1" for 0.1 USDC)
+  // parseUnits converts to raw units: 0.1 USDC -> 100000 (6 decimals)
+  const salaryRaw = ethers.utils.parseUnits(salary, 6); // USDC has 6 decimals
+
+  // destinationChainSelector must be 0 or 1 (doesn't matter which for the contract)
+  const chainSelector = destinationChainSelector === 0 || destinationChainSelector === 1
+    ? destinationChainSelector
+    : 0;
+
+  // receiverContract should be the same as wallet address
+  const receiverContract = wallet;
 
   console.log('Calling addEmployee with params:', {
     name,
     wallet,
-    wormholeChainId,
+    destinationChainSelector: chainSelector,
+    receiverContract,
     salary,
-    salaryWei: salaryWei.toString()
+    salaryRaw: salaryRaw.toString()
   });
 
   const tx = await payrollContract.addEmployee(
     name,
     wallet,
-    wormholeChainId,
-    salaryWei
+    chainSelector,
+    receiverContract,
+    salaryRaw
   );
   return await tx.wait();
 }
@@ -238,21 +250,29 @@ export async function updateEmployee(
   employeeId: number,
   name: string,
   wallet: string,
-  wormholeChainId: number,
+  destinationChainSelector: number,
+  receiverContract: string,
   salary: string,
   nextPayDate: number,
   active: boolean
 ): Promise<ethers.providers.TransactionReceipt> {
   if (!payrollContract) throw new Error("Contract not initialized");
 
-  const salaryWei = ethers.utils.parseUnits(salary, 6); // USDC has 6 decimals
+  // IMPORTANT: salary is already in USDC decimal format (e.g., "0.1" for 0.1 USDC)
+  const salaryRaw = ethers.utils.parseUnits(salary, 6); // USDC has 6 decimals
+
+  // destinationChainSelector must be 0 or 1
+  const chainSelector = destinationChainSelector === 0 || destinationChainSelector === 1
+    ? destinationChainSelector
+    : 0;
 
   const tx = await payrollContract.updateEmployee(
     employeeId,
     name,
     wallet,
-    wormholeChainId,
-    salaryWei,
+    chainSelector,
+    receiverContract,
+    salaryRaw,
     nextPayDate,
     active
   );
@@ -263,16 +283,17 @@ export async function getEmployee(employeeId: number): Promise<any> {
   if (!payrollContract) throw new Error("Contract not initialized");
 
   const employee = await payrollContract.getEmployee(employeeId);
+  // Struct: companyId, name, wallet, destinationChainSelector, receiverContract, salary, nextPayDate, active, employeeId
   return {
     companyId: employee[0].toNumber(),
     name: employee[1],
     wallet: employee[2],
-    wormholeChainId: employee[3], // Wormhole chain ID (uint16)
-    destinationChainSelector: employee[3], // Keep for backward compatibility
-    salary: ethers.utils.formatUnits(employee[4], 6),
-    nextPayDate: employee[5].toNumber(),
-    active: employee[6],
-    employeeId: employee[7].toNumber()
+    destinationChainSelector: Number(employee[3]), // uint64 destination chain selector (0 or 1)
+    receiverContract: employee[4], // receiver contract address
+    salary: ethers.utils.formatUnits(employee[5], 6), // USDC has 6 decimals
+    nextPayDate: employee[6].toNumber(),
+    active: employee[7],
+    employeeId: employee[8].toNumber()
   };
 }
 
@@ -294,20 +315,6 @@ export async function deactivateEmployee(employeeId: number): Promise<ethers.pro
   if (!payrollContract) throw new Error("Contract not initialized");
 
   const tx = await payrollContract.deactivateEmployee(employeeId);
-  return await tx.wait();
-}
-
-// ============ PAYMENT FUNCTIONS ============
-
-export async function payEmployeeViaWormhole(
-  employeeId: number
-): Promise<ethers.providers.TransactionReceipt> {
-  if (!payrollContract) throw new Error("Contract not initialized");
-
-  // Send 0.01 ETH for Wormhole relayer fees
-  const tx = await payrollContract.payEmployeeViaWormhole(employeeId, {
-    value: ethers.utils.parseEther("0.01")
-  });
   return await tx.wait();
 }
 
@@ -336,40 +343,40 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
     // Get current block number
     const currentBlock = await provider.getBlockNumber();
 
-    // Base Sepolia has a max block range of 100,000
+    // Base has a max block range of 100,000
     // Query last 50,000 blocks to stay well under the limit
     const blockRange = 50000;
     const fromBlock = Math.max(0, currentBlock - blockRange);
 
-    // Build filter for PaymentExecutedLocal events (same-chain payments)
-    const executedLocalFilter = companyId
-      ? payrollContract.filters.PaymentExecutedLocal(companyId)
-      : payrollContract.filters.PaymentExecutedLocal();
+    // Helper to get network name from chain selector
+    const getNetworkName = (chainSelector: number): string => {
+      const networks: Record<number, string> = {
+        0: 'Base',
+        1: 'Arbitrum'
+      };
+      return networks[chainSelector] || 'Base';
+    };
 
-    // Build filter for PaymentExecutedViaWormhole events (cross-chain payments)
-    const executedWormholeFilter = companyId
-      ? payrollContract.filters.PaymentExecutedViaWormhole(companyId)
-      : payrollContract.filters.PaymentExecutedViaWormhole();
+    // Build filter for PaymentExecuted events (completed payments)
+    const executedFilter = companyId
+      ? payrollContract.filters.PaymentExecuted(companyId)
+      : payrollContract.filters.PaymentExecuted();
 
-    // Build filter for PaymentScheduled events
+    // Build filter for PaymentScheduled events (scheduled payments on employee add)
     const scheduledFilter = companyId
       ? payrollContract.filters.PaymentScheduled(companyId)
       : payrollContract.filters.PaymentScheduled();
 
-    // Fetch PaymentExecutedLocal events
-    const executedLocalEvents = await payrollContract.queryFilter(executedLocalFilter, fromBlock, currentBlock);
+    // Fetch PaymentExecuted events
+    const executedEvents = await payrollContract.queryFilter(executedFilter, fromBlock, currentBlock);
 
-    // Fetch PaymentExecutedViaWormhole events
-    const executedWormholeEvents = await payrollContract.queryFilter(executedWormholeFilter, fromBlock, currentBlock);
-
-    // Process local payment events
-    for (const event of executedLocalEvents) {
-      if (!provider) break; // Stop if provider is null
+    // Process executed payment events
+    for (const event of executedEvents) {
+      if (!provider) break;
 
       const block = await provider.getBlock(event.blockNumber);
       const args = event.args as any;
 
-      // Log the event args to debug
       console.log('PaymentExecuted event args:', {
         companyId: args.companyId?.toNumber(),
         employeeId: args.employeeId?.toNumber(),
@@ -403,95 +410,37 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
       });
     }
 
-    // Process Wormhole cross-chain payment events
-    for (const event of executedWormholeEvents) {
-      if (!provider) break; // Stop if provider is null
-
-      const block = await provider.getBlock(event.blockNumber);
-      const args = event.args as any;
-
-      // Get employee details
-      let employeeName = 'Unknown';
-      if (payrollContract) {
-        try {
-          const employee = await getEmployee(args.employeeId.toNumber());
-          employeeName = employee.name;
-        } catch (err) {
-          console.error('Error fetching employee:', err);
-        }
-      }
-
-      // Get network name from wormhole chain ID
-      const getNetworkName = (wormholeChainId: number): string => {
-        const networks: Record<number, string> = {
-          10004: 'Base Sepolia',
-          10003: 'Arbitrum Sepolia',
-          6: 'Avalanche Fuji',
-          10005: 'Optimism Sepolia',
-          10002: 'Ethereum Sepolia'
-        };
-        return networks[wormholeChainId] || 'Unknown';
-      };
-
-      const targetChain = args.targetChain ? Number(args.targetChain) : 0;
-
-      payments.push({
-        id: `${event.transactionHash}-${event.logIndex}`,
-        companyId: args.companyId.toNumber(),
-        employeeId: args.employeeId ? args.employeeId.toNumber() : 0,
-        employeeName: employeeName,
-        employeeWallet: args.wallet,
-        amount: ethers.utils.formatUnits(args.amount, 6), // USDC has 6 decimals
-        timestamp: block.timestamp,
-        transactionHash: event.transactionHash,
-        status: 'completed',
-        network: getNetworkName(targetChain),
-        blockNumber: event.blockNumber
-      });
-    }
-
     // Fetch PaymentScheduled events
     const scheduledEvents = await payrollContract.queryFilter(scheduledFilter, fromBlock, currentBlock);
 
     for (const event of scheduledEvents) {
-      if (!provider) break; // Stop if provider is null
+      if (!provider) break;
 
       const block = await provider.getBlock(event.blockNumber);
       const args = event.args as any;
 
-      // Get employee details
-      let employeeName = 'Unknown';
-      if (payrollContract) {
-        try {
-          const employee = await getEmployee(args.employeeId.toNumber());
-          employeeName = employee.name;
-        } catch (err) {
-          console.error('Error fetching employee:', err);
-        }
-      }
-
-      // Get network name from Wormhole chain ID
-      const getNetworkName = (wormholeChainId: number): string => {
-        const networks: Record<number, string> = {
-          10004: 'Base Sepolia',
-          10003: 'Arbitrum Sepolia',
-          6: 'Avalanche Fuji',
-          10005: 'Optimism Sepolia',
-          10002: 'Ethereum Sepolia'
-        };
-        return networks[wormholeChainId] || 'Unknown';
-      };
-
-      const chainId = args.wormholeChainId ? Number(args.wormholeChainId) : 0;
-
-      // Log the event args to debug
       console.log('PaymentScheduled event args:', {
         companyId: args.companyId?.toNumber(),
         employeeId: args.employeeId?.toNumber(),
         wallet: args.wallet,
         amount: args.amount?.toString(),
+        destChain: args.destChain?.toString(),
+        receiver: args.receiver,
         allArgs: Object.keys(args)
       });
+
+      // Get employee details
+      let employeeName = 'Unknown';
+      if (payrollContract) {
+        try {
+          const employee = await getEmployee(args.employeeId.toNumber());
+          employeeName = employee.name;
+        } catch (err) {
+          console.error('Error fetching employee:', err);
+        }
+      }
+
+      const destChain = args.destChain ? Number(args.destChain) : 0;
 
       payments.push({
         id: `${event.transactionHash}-${event.logIndex}`,
@@ -503,7 +452,7 @@ export async function getPaymentHistory(companyId?: number): Promise<PaymentEven
         timestamp: block.timestamp,
         transactionHash: event.transactionHash,
         status: 'scheduled',
-        network: getNetworkName(chainId),
+        network: getNetworkName(destChain),
         blockNumber: event.blockNumber
       });
     }

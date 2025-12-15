@@ -189,7 +189,7 @@ export function PaymentHistory({ companies, payments, currentCompanyId }: Paymen
                         <TableCell>
                           {payment.transactionHash ? (
                             <a
-                              href={`https://sepolia.basescan.org/tx/${payment.transactionHash}`}
+                              href={`https://basescan.org/tx/${payment.transactionHash}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-blue-600 hover:text-blue-800 text-xs font-mono"
@@ -320,7 +320,7 @@ export function PaymentHistory({ companies, payments, currentCompanyId }: Paymen
                     </Button>
                   </div>
                   <a
-                    href={`https://sepolia.basescan.org/tx/${selectedPayment.transactionHash}`}
+                    href={`https://basescan.org/tx/${selectedPayment.transactionHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"

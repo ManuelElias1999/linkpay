@@ -167,15 +167,13 @@ export default function App() {
 
       console.log('Raw payment events count:', paymentEvents.length);
 
-      // Helper function to get network name from chain selector
+      // Helper function to get network name from chain selector (0 or 1)
       const getNetworkName = (selector: number): string => {
         const networks: Record<number, string> = {
           0: 'Base',
-          1: 'Arbitrum',
-          2: 'Avalanche',
-          3: 'Eth Sepolia'
+          1: 'Avalanche'
         };
-        return networks[selector] || 'Unknown';
+        return networks[selector] || 'Base';
       };
 
       // Helper function to determine payment status based on payment history
@@ -316,7 +314,7 @@ export default function App() {
 
       // Step 2: Approve USDC with large allowance for future payments and WAIT for confirmation
       toast.info('Approving USDC for registration fee and future payments... Please confirm the transaction in MetaMask');
-      const largeAllowance = "1000000000000000000000000"; // 1e24 wei = 1 million USDC (with 18 decimals)
+      const largeAllowance = "1000000"; // 1 million USDC (parseUnits will add 6 decimals)
       const approvalReceipt = await web3.approveUSDC(largeAllowance);
       toast.success(`USDC approved with large allowance! Transaction: ${approvalReceipt.transactionHash.substring(0, 10)}...`);
 
@@ -399,11 +397,13 @@ export default function App() {
       toast.info('Updating employee... Please confirm the transaction in MetaMask');
 
       // Update employee on smart contract and wait for confirmation
+      // receiverContract should be same as wallet address
       const receipt = await web3.updateEmployee(
         parseInt(id),
         data.name,
         data.walletAddress,
         employee.destinationChainSelector,
+        data.walletAddress, // receiverContract = wallet address
         employee.salary,
         employee.nextPayDate,
         true
@@ -477,15 +477,13 @@ export default function App() {
         return;
       }
 
-      // Map blockchain network to Wormhole chain ID
+      // Map blockchain network to chain selector (0 or 1)
       const chainSelectors: Record<string, number> = {
-        'base': 10004,        // Base Sepolia
-        'arbitrum': 10003,    // Arbitrum Sepolia
-        'avalanche': 6,       // Avalanche Fuji
-        'eth-sepolia': 10002, // Ethereum Sepolia
+        'base': 0,
+        'avalanche': 1,
       };
 
-      const chainSelector = chainSelectors[paymentData.blockchainNetwork] || 10004; // Default to Base Sepolia
+      const chainSelector = chainSelectors[paymentData.blockchainNetwork] ?? 0; // Default to Base (0)
 
       // Check USDC balance and allowance
       const balance = await web3.getUSDCBalance();
@@ -499,13 +497,17 @@ export default function App() {
         return;
       }
 
+      // Auto-approve USDC if allowance is insufficient (payment happens on add)
       if (parseFloat(allowance) < parseFloat(salaryAmount)) {
-        toast.error(`Insufficient USDC allowance. Please increase your USDC approval for the PayrollManager contract.`);
-        return;
+        toast.info('Approving USDC for payment... Please confirm the transaction in MetaMask');
+        // Approve a large amount to avoid future approvals
+        const largeAllowance = "1000000"; // 1 million USDC
+        await web3.approveUSDC(largeAllowance);
+        toast.success('USDC approved!');
       }
 
-      // Add employee (USDC was already approved during company registration with large allowance)
-      toast.info('Adding employee... Please confirm the transaction in MetaMask');
+      // Add employee - this also triggers the first payment
+      toast.info('Adding employee and processing payment... Please confirm the transaction in MetaMask');
 
       // Add employee using smart contract and wait for confirmation
       const receipt = await web3.addEmployee(
@@ -515,7 +517,7 @@ export default function App() {
         salaryAmount
       );
 
-      toast.success(`Employee added! Transaction: ${receipt.transactionHash.substring(0, 10)}...`);
+      toast.success(`Employee added and payment processed! Transaction: ${receipt.transactionHash.substring(0, 10)}...`);
 
       // Wait for blockchain state to settle
       toast.info('Loading employee data...');
@@ -595,7 +597,7 @@ export default function App() {
     { id: 'dashboard' as View, label: 'Dashboard', icon: LayoutDashboard },
     { id: 'register' as View, label: 'Register Company', icon: Building2 },
     { id: 'employees' as View, label: 'Employees', icon: Users },
-    { id: 'schedule' as View, label: 'Schedule Payment', icon: Coins },
+    { id: 'schedule' as View, label: 'Add Employee', icon: Coins },
     { id: 'history' as View, label: 'Payment History', icon: History },
   ];
 

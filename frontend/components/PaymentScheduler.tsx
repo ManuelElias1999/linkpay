@@ -59,8 +59,8 @@ export function PaymentScheduler({ companies, onSchedule, currentCompanyId }: Pa
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h2>Schedule Payment</h2>
-        <p className="text-gray-500">Schedule payments to employees</p>
+        <h2>Add Employee</h2>
+        <p className="text-gray-500">Add a new employee and process their first payment</p>
       </div>
 
       <Card>
@@ -133,10 +133,8 @@ export function PaymentScheduler({ companies, onSchedule, currentCompanyId }: Pa
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 required
               >
-                <option value="base">Base (Selector: 0)</option>
-                <option value="arbitrum">Arbitrum (Selector: 1)</option>
-                <option value="avalanche">Avalanche (Selector: 2)</option>
-                <option value="eth-sepolia">Ethereum Sepolia (Selector: 3)</option>
+                <option value="base">Base</option>
+                <option value="avalanche">Avalanche</option>
               </select>
               <p className="text-xs text-gray-500">
                 Select the blockchain network where the employee will receive payments
@@ -161,7 +159,7 @@ export function PaymentScheduler({ companies, onSchedule, currentCompanyId }: Pa
             </div>
 
             <Button type="submit" className="w-full" disabled={currentCompanyId === 0}>
-              {currentCompanyId === 0 ? 'Register Company First' : 'Schedule Payment'}
+              {currentCompanyId === 0 ? 'Register Company First' : 'Add Employee & Pay'}
             </Button>
           </form>
         </CardContent>
